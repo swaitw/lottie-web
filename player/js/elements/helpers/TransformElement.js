@@ -53,7 +53,7 @@ TransformElement.prototype = {
         }
       }
     }
-    if (this.finalTransform._matMdf) {
+    if (!this.localTransforms || this.finalTransform._matMdf) {
       this.finalTransform._localMatMdf = this.finalTransform._matMdf;
     }
     if (this.finalTransform._opMdf) {
@@ -70,7 +70,8 @@ TransformElement.prototype = {
           if (this.localTransforms[i]._mdf) {
             this.finalTransform._localMatMdf = true;
           }
-          if (this.localTransforms[i]._opMdf) {
+          if (this.localTransforms[i]._opMdf && !this.finalTransform._opMdf) {
+            this.finalTransform.localOpacity = this.finalTransform.mProp.o.v;
             this.finalTransform._opMdf = true;
           }
           i += 1;

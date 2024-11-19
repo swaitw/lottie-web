@@ -34,12 +34,12 @@ const ExpressionManager = (function () {
   }
 
   function isNumerable(tOfV, v) {
-    return tOfV === 'number' || tOfV === 'boolean' || tOfV === 'string' || v instanceof Number;
+    return tOfV === 'number' || v instanceof Number || tOfV === 'boolean' || tOfV === 'string';
   }
 
   function $bm_neg(a) {
     var tOfA = typeof a;
-    if (tOfA === 'number' || tOfA === 'boolean' || a instanceof Number) {
+    if (tOfA === 'number' || a instanceof Number || tOfA === 'boolean') {
       return -a;
     }
     if ($bm_isInstanceOfArray(a)) {
@@ -64,10 +64,7 @@ const ExpressionManager = (function () {
   function sum(a, b) {
     var tOfA = typeof a;
     var tOfB = typeof b;
-    if (tOfA === 'string' || tOfB === 'string') {
-      return a + b;
-    }
-    if (isNumerable(tOfA, a) && isNumerable(tOfB, b)) {
+    if ((isNumerable(tOfA, a) && isNumerable(tOfB, b)) || tOfA === 'string' || tOfB === 'string') {
       return a + b;
     }
     if ($bm_isInstanceOfArray(a) && isNumerable(tOfB, b)) {
@@ -404,6 +401,7 @@ const ExpressionManager = (function () {
     var content;
     var effect;
     var thisProperty = property;
+    thisProperty._name = elem.data.nm;
     thisProperty.valueAtTime = thisProperty.getValueAtTime;
     Object.defineProperty(thisProperty, 'value', {
       get: function () {
